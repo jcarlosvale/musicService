@@ -2,3 +2,9 @@ server:
   port: 8080
   error:
     include-message: always
+
+resilience4j:
+  retry:
+    instances:
+      artistSearch:
+        maxRetryAttempts: 3

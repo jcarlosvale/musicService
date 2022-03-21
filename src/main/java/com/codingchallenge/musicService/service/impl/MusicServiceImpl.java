@@ -1,8 +1,28 @@
 package com.codingchallenge.musicService.service.impl;
 
-import com.codingchallenge.musicService.domain.dto.*;
-import com.codingchallenge.musicService.domain.exception.*;
+import com.codingchallenge.musicService.domain.dto.AlbumDto;
+import com.codingchallenge.musicService.domain.dto.ArtistDto;
+import com.codingchallenge.musicService.domain.dto.CoverArtDto;
+import com.codingchallenge.musicService.domain.dto.ImageDto;
+import com.codingchallenge.musicService.domain.dto.MusicBrainzDto;
+import com.codingchallenge.musicService.domain.dto.RelationDto;
+import com.codingchallenge.musicService.domain.dto.ReleaseDto;
+import com.codingchallenge.musicService.domain.dto.WikidataDto;
+import com.codingchallenge.musicService.domain.dto.WikipediaDto;
+import com.codingchallenge.musicService.domain.exception.BusinessException;
+import com.codingchallenge.musicService.domain.exception.CoverArtException;
+import com.codingchallenge.musicService.domain.exception.MusicBrainzException;
+import com.codingchallenge.musicService.domain.exception.MusicBrainzNotFoundException;
+import com.codingchallenge.musicService.domain.exception.WikidataException;
+import com.codingchallenge.musicService.domain.exception.WikidataNotFoundException;
+import com.codingchallenge.musicService.domain.exception.WikidataUrlNotPresentException;
+import com.codingchallenge.musicService.domain.exception.WikipediaException;
+import com.codingchallenge.musicService.domain.exception.WikipediaNotFoundException;
 import com.codingchallenge.musicService.service.MusicService;
+import io.github.resilience4j.retry.annotation.Retry;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,10 +32,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @Log4j2
 @Service
@@ -28,6 +44,7 @@ public class MusicServiceImpl implements MusicService {
     private final RestTemplate restTemplate;
 
     @Cacheable("Artists")
+    @Retry(name = "artistSearch")
     public ArtistDto getArtist(@NonNull final String id) throws BusinessException {
 
         log.info("Retrieving artist {}", id);
