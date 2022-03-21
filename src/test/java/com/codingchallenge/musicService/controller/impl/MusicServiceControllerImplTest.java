@@ -1,17 +1,13 @@
 package com.codingchallenge.musicService.controller.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.codingchallenge.musicService.domain.dto.ArtistDto;
-import com.codingchallenge.musicService.domain.exception.BusinessException;
 import com.codingchallenge.musicService.domain.exception.CoverArtException;
 import com.codingchallenge.musicService.domain.exception.CoverArtNotFoundException;
 import com.codingchallenge.musicService.domain.exception.MusicBrainzException;
